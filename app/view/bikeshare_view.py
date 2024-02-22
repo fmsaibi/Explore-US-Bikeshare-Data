@@ -35,8 +35,7 @@ class BikeshareView:
                 Enter Here: Chicago
                 Enter Here: washington
         """
-        selected = self.get_menu(cs.WHICH_CITY_QUESTION, cs.CITY_LIST)
-        return selected
+        return self.get_menu(cs.WHICH_CITY_QUESTION, cs.CITY_LIST)
 
     def show_period_menu(self) -> str:
         """
@@ -60,8 +59,7 @@ class BikeshareView:
                 Enter Here: month
                 Enter Here: day
         """
-        selected = self.get_menu(cs.HOW_TO_FILTER_QUESTION, cs.PERIOD_LIST)
-        return cs.ALL if selected == cs.NONE else selected
+        return self.get_menu(cs.HOW_TO_FILTER_QUESTION, cs.PERIOD_LIST)
 
     def show_month_menu(self) -> str:
         """
@@ -85,8 +83,7 @@ class BikeshareView:
                 Enter Here: month
                 Enter Here: day
         """
-        selected_month = self.get_menu(cs.WHICH_MONTH_QUESTION, cs.MONTH_LIST)
-        return selected_month
+        return self.get_menu(cs.WHICH_MONTH_QUESTION, cs.MONTH_LIST)
 
     def show_individual_trip_data_menu(self) -> str:
         """
@@ -110,8 +107,7 @@ class BikeshareView:
                 Enter Here: Yes
                 Enter Here: No
         """
-        select = self.get_menu(cs.INDIVIDUAL_TRIP_DATA_QUESTION, cs.BOOLEAN_LIST)
-        return select
+        return self.get_menu(cs.INDIVIDUAL_TRIP_DATA_QUESTION, cs.BOOLEAN_LIST)
 
     def show_day_menu(self) -> str:
         """
@@ -135,8 +131,7 @@ class BikeshareView:
                 Enter Here: monday
                 Enter Here: thursday
         """
-        selected = self.get_menu(cs.HOW_TO_FILTER_QUESTION, cs.DAY_LIST)
-        return selected
+        return self.get_menu(cs.HOW_TO_FILTER_QUESTION, cs.DAY_LIST)
 
     def show_reset_menu(self):
         """
@@ -152,9 +147,7 @@ class BikeshareView:
         Raise:
             Invalid Mesaage: If the input is invalid or not in the list provided
         """
-        selected = self.get_menu(cs.RESTART_QUESTION,cs.BOOLEAN_LIST)
-        return selected
-
+        return self.get_menu(cs.RESTART_QUESTION,cs.BOOLEAN_LIST)
 
     def get_menu(self, question:str, items:list) -> str:
         """
@@ -213,8 +206,7 @@ class BikeshareView:
         Args:
             data (pd.DataFrame): Table from previously used function time_stats
         """
-        print(data)
-        print(cs.LINE_SPACE)
+        print(f'{data}\n{cs.LINE_SPACE}')
 
     def display_station_message(self):
         """
@@ -229,8 +221,7 @@ class BikeshareView:
         Args:
             data (pd.DataFrame): Table from previously used function station_stats
         """
-        print(data)
-        print(cs.LINE_SPACE)
+        print(f'{data}\n{cs.LINE_SPACE}')
 
     def display_duration_message(self):
         """
@@ -245,8 +236,7 @@ class BikeshareView:
         Args:
             data (pd.DataFrame): Table from previously used function trip_duration_stats
         """
-        print(data)
-        print(cs.LINE_SPACE)
+        print(f'{data}\n{cs.LINE_SPACE}')
 
     def display_user_stats_message(self):
         """
@@ -261,8 +251,7 @@ class BikeshareView:
         Args:
             data (pd.DataFrame): Table from previously used function trip_duration_stats
         """
-        print(data)
-        print(cs.LINE_SPACE)
+        print(f'{data}\n{cs.LINE_SPACE}')
 
     def display_individual_trip_data(self, data:pd.DataFrame):
         """
@@ -272,5 +261,4 @@ class BikeshareView:
         Args:
             data (pd.DataFrame): for the csv file loaded
         """
-        print(data)
-        print(cs.LINE_SPACE)
+        print(f'{data}\n{cs.LINE_SPACE}')

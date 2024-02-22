@@ -27,7 +27,7 @@ class BackshareController:
         self.view.show_welcome_message()
 
         while True:
-            # # Display City Menu
+            # Display City Menu
             city = self.view.show_city_menu()
             self.city = city if city else cs.NULL
             # Display Period Menu
@@ -83,6 +83,6 @@ class BackshareController:
                     self.view.show_csv_file_not_found()
                     break
 
-            # Restating Data app
+            # Restating Bikeshare app
             if self.view.show_reset_menu() != cs.YES:
                 break
