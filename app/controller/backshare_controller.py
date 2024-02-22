@@ -20,9 +20,6 @@ class BackshareController:
         self.data_count         =   0
 
     def run_app(self):
-        """_summary_
-            Run user input menu list
-        """
         # Display Welcome Message
         self.view.show_welcome_message()
 
@@ -76,7 +73,7 @@ class BackshareController:
                             self.view.display_individual_trip_data(trip_data)
                             # Incremneting data count
                             self.data_count += 5
-                    # Reseting to Defult value 
+                    # Reseting to Defult value
                     self.individual_trip = cs.YES
                     self.data_count = 0
                 else:
