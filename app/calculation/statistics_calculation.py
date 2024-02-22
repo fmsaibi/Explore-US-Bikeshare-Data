@@ -2,17 +2,14 @@
 import time
 # Importing the pandas library and aliasing it as 'pd' for convenient use
 import pandas as pd
+# Importing constants variable  and aliasing it as 'cs' for convenient use
+import app.constants as cs
 
 class StatisticsCalculation:
     """
     Module
     """
-    def __init__(self):
-        self.all         = "all"
-        self.empty_list  = ['','']
-        self.separator   = "    :   "
-
-    def time_stats(self, df:pd.DataFrame, month, day):
+    def time_stats(self, df:pd.DataFrame, month:str, day:str):
         """ 
         Filtering statistics on the most frequent times of travel.
 
@@ -28,19 +25,18 @@ class StatisticsCalculation:
         # Create empty dictionary
         data = {}
         # filtering most common month
-        if month == self.all:
-            data["Most Popular Month:"] = [self.separator,df['month'].mode()[0]]
+        if month == cs.ALL:
+            data[cs.DISPLAY_MOST_POPULAR_MONTH] = [cs.SEPARATOR,df[cs.MONTH].mode()[0]]
         # filtering the most common day of week
-        if day == self.all:
-            data["Most popular day of the week:"] = [self.separator,df['day_of_week'].mode()[0]]
+        if day == cs.ALL:
+            data[cs.DISPLAY_MOST_POPULAR_DAY] = [cs.SEPARATOR,df[cs.DAY_OF_WEEK].mode()[0]]
         # filtering the most common start hour
-        data["Most popular hour of the Month:"] = [self.separator,df['hour'].mode()[0]]
+        data[cs.DISPLAY_MOST_POPULAR_HOUR] = [cs.SEPARATOR,df[cs.HOUR].mode()[0]]
         # Adding empty row in table
-        data[""] = self.empty_list
+        data[cs.NULL] = cs.EMPTY_LIST
         # Adding time spend for calucation
-        data["This took (seconds)"] = [self.separator,f'{time.time() - start_time}']
-
-        return pd.DataFrame(data=data.values(), index=data.keys(), columns=self.empty_list)
+        data[cs.DISPLAY_SECONDS_TOOK] = [cs.SEPARATOR,f'{time.time() - start_time}']
+        return pd.DataFrame(data=data.values(), index=data.keys(), columns=cs.EMPTY_LIST)
 
     def station_stats(self, df:pd.DataFrame):
         """
@@ -58,37 +54,33 @@ class StatisticsCalculation:
         # Create empty dictionary
         data = {}
         # display most commonly used start station
-        data["Most commonly used start station:"] = [self.separator,df['Start Station'].mode()[0]]
+        data[cs.DISPLAY_MOST_COMMONLY_START_STATION] = [cs.SEPARATOR,df[cs.START_STATION].mode()[0]]
         # display most commonly used end station
-        data["Most commonly used end station:"] = [self.separator,df['End Station'].mode()[0]]
+        data[cs.DISPLAY_MOST_COMMONLY_END_STATION] = [cs.SEPARATOR,df[cs.END_STATION].mode()[0]]
         # display most frequent combination of start station and end station trip
-        data["Most frequent combination:"] = [self.separator,df['combination_sation'].mode()[0]]
-
+        data[cs.DISPLAY_MOST_FREQUENT_COMBINATION] = [cs.SEPARATOR,df[cs.COMBINE_STATION].mode()[0]]
         # Adding empty row in table
-        data[""] = self.empty_list
+        data[cs.NULL] = cs.EMPTY_LIST
         # Adding time spend for calucation
-        data["This took (seconds)"] = [self.separator,f'{time.time() - start_time}']
-
-        return pd.DataFrame(data=data.values(), index=data.keys(), columns=self.empty_list)
+        data[cs.DISPLAY_SECONDS_TOOK] = [cs.SEPARATOR,f'{time.time() - start_time}']
+        return pd.DataFrame(data=data.values(), index=data.keys(), columns=cs.EMPTY_LIST)
 
     def trip_duration_stats(self, df:pd.DataFrame):
         """
         Filtering statistics on the total and average trip duration.
         """
-
         start_time = time.time()
         # Create empty dictionary
         data = {}
         # display total travel time
-        data["Total travel time (Hours)"] = [self.separator,df["Trip Duration"].sum()]
+        data[cs.DISPLAY_TOTAL_TRAVEL_TIME] = [cs.SEPARATOR,df[cs.TRIP_DURATION].sum()]
         # display mean travel time
-        data["The average(mean) travel time (Hours)"] = [self.separator,df["Trip Duration"].mean()]
+        data[cs.DISPLAY_AVERAGE_TRAVEL_TIME] = [cs.SEPARATOR,df[cs.TRIP_DURATION].mean()]
         # Adding empty row in table
-        data[""] = self.empty_list
+        data[cs.NULL] = cs.EMPTY_LIST
         # Adding time spend for calucation
-        data["This took (seconds)"] = [self.separator,f'{time.time() - start_time}']
-        return pd.DataFrame(data=data.values(), index=data.keys(), columns=self.empty_list)
-
+        data[cs.DISPLAY_SECONDS_TOOK] = [cs.SEPARATOR,f'{time.time() - start_time}']
+        return pd.DataFrame(data=data.values(), index=data.keys(), columns=cs.EMPTY_LIST)
 
     def user_stats(self, df:pd.DataFrame):
         """
@@ -97,39 +89,53 @@ class StatisticsCalculation:
         start_time = time.time()
         # Create empty dictionary
         data = {}
-
-        data["User Types"] = self.empty_list
+        data[cs.USER_TYPE] =cs.EMPTY_LIST
         # Display counts of user types
-        data["Total counts of all user types"] = [self.separator,df["User Type"].count()]
-        user_type = df.groupby(['User Type'])['User Type'].count()
+        data[cs.DISPLAY_TOTAL_COUNTS_OF_ALL_USER_TYPES] = [cs.SEPARATOR,df[cs.USER_TYPE].count()]
+        user_type = df.groupby([cs.USER_TYPE])[cs.USER_TYPE].count()
 
         for each_user in user_type.keys():
-            data[f'Total counts of {each_user}'] = [self.separator,user_type[each_user]]
+            data[cs.DISPLAY_TOTAL_COUNTS_OF + each_user] = [cs.SEPARATOR,user_type[each_user]]
 
         # Display counts of gender
-        if "Gender" in df.columns:
+        if cs.GENDER in df.columns:
             # Adding empty row in table
-            data["Gender"] = self.empty_list
+            data[cs.GENDER] = cs.EMPTY_LIST
 
-            data["Total counts of all gender"] = [self.separator,df["Gender"].count()]
-            gender = df.groupby(['Gender'])['Gender'].count()
+            data[cs.DISPLAY_TOTAL_COUNTS_OF_ALL_GENDER] = [cs.SEPARATOR,df[cs.GENDER].count()]
+            gender = df.groupby([cs.GENDER])[cs.GENDER].count()
 
             for each_gender in gender.keys():
-                data[f'Total count of {each_gender}'] = [self.separator,gender[each_gender]]
+                data[cs.DISPLAY_TOTAL_COUNTS_OF + each_gender ] = [cs.SEPARATOR,gender[each_gender]]
 
         # Display earliest, most recent, and most common year of birth
-        if "Birth Year" in df.columns:
+        if cs.BIRTH_YEAR in df.columns:
             # Adding empty row in table
-            data["Birth Year"] = self.empty_list
+            data[cs.BIRTH_YEAR] = cs.EMPTY_LIST
             # Display earliest year of birth
-            data["The oldest year of birth"] = [self.separator,df['Birth Year'].min()]
+            data[cs.DISPLAY_THE_OLDEST_YEAR_OF_BIRTH] = [cs.SEPARATOR,df[cs.BIRTH_YEAR].min()]
             # Display most recent year of birth
-            data["Most recent year of birth"] = [self.separator,df['Birth Year'].max()]
+            data[cs.DISPLAY_MOST_RECENT_YEAR_OF_BIRTH] = [cs.SEPARATOR,df[cs.BIRTH_YEAR].max()]
             # Display most commonly used start station
-            data["Most command year of birth"] = [self.separator,df['Birth Year'].mode()[0]]
+            data[cs.DISPLAY_MOST_COMMAND_YEAR_OF_BIRTH] = [cs.SEPARATOR,df[cs.BIRTH_YEAR].mode()[0]]
 
         # Adding empty row in table
-        data[""] = self.empty_list
+        data[cs.NULL] = cs.EMPTY_LIST
         # Adding time spend for calucation
-        data["This took (seconds)"] = ["    :   ",f'{time.time() - start_time}']
-        return pd.DataFrame(data=data.values(), index=data.keys(), columns=self.empty_list)
+        data[cs.DISPLAY_SECONDS_TOOK] = [cs.SEPARATOR,f'{time.time() - start_time}']
+        return pd.DataFrame(data=data.values(), index=data.keys(), columns=cs.EMPTY_LIST)
+
+    def individual_trip_data(self, df:pd.DataFrame, count:int):
+        """
+        This fuction retrun 5 row of individual trip data
+
+        Args:
+            df (pd.DataFrame): Table from csv file loaded
+            count (int): Number of rows needed to be retruns from the tabls
+
+        Returns:
+            DataFrame: Table consist of 5 row of individual data
+        """
+        df = df.drop(columns=[cs.MONTH,cs.HOUR, cs.DAY_OF_WEEK,cs.COMBINE_STATION])
+
+        return df.iloc[count:count+5]

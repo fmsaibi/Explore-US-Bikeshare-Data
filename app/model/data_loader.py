@@ -1,6 +1,7 @@
 # Importing the pandas library and aliasing it as 'pd' for convenient use
 
 import pandas as pd
+import app.constants as cs
 
 class DataLoader:
     """
@@ -42,28 +43,27 @@ class DataLoader:
             day (str): The day of the week for which data needs to filtred.
         """
         # convert the Start Time column to datetime
-        self.df['Start Time'] = pd.to_datetime(self.df['Start Time'])
+        self.df[cs.START_TIME] = pd.to_datetime(self.df[cs.START_TIME])
         # extract month from Start Time to create new columns
-        self.df['month'] = pd.to_datetime(self.df['Start Time']).dt.month
+        self.df[cs.MONTH] = pd.to_datetime(self.df[cs.START_TIME]).dt.month
         # extract hour from Start Time to create new columns
-        self.df['hour'] = pd.to_datetime(self.df['Start Time']).dt.hour
+        self.df[cs.HOUR] = pd.to_datetime(self.df[cs.START_TIME]).dt.hour
         # extract day of week from Start Time to create new columns
-        self.df['day_of_week'] = pd.to_datetime(self.df['Start Time']).dt.day_name()
+        self.df[cs.DAY_OF_WEEK] = pd.to_datetime(self.df[cs.START_TIME]).dt.day_name()
         # Combining Start and End Station to create new columns
-        self.df['combination_sation'] = self.df['Start Station'] + " to " + self.df['End Station']
+        self.df[cs.COMBINE_STATION] = self.df[cs.START_STATION] + " to " + self.df[cs.END_STATION]
 
         # filter by month if applicable
-        if month != 'all':
+        if month != cs.ALL:
             # use the index of the months list to get the corresponding int
-            months = ['january', 'february', 'march', 'april', 'may', 'june']
-            month = months.index(month)+1
+            month = cs.MONTH_LIST.index(month)+1
             # filter by month to create the new dataframe
-            self.df = self.df[self.df['month'] == month]
+            self.df = self.df[self.df[cs.MONTH] == month]
 
         # filter by day of week if applicable
-        if day != 'all':
+        if day != cs.ALL:
             # filter by day of week to create the new dataframe
-            self.df = self.df[self.df['day_of_week'] == day.title()]
+            self.df = self.df[self.df[cs.DAY_OF_WEEK] == day.title()]
 
     def get_data(self):
         """

@@ -1,5 +1,6 @@
 """Module providing a fuction to preapre One-dimensional ndarray with axis labels"""
 import pandas as pd
+import app.constants as cs
 
 class BikeshareView:
     """
@@ -10,7 +11,7 @@ class BikeshareView:
         """
             Display Welcome message at the start of the app
         """
-        print('\nHello! Let\'s explore some US bikeshare data!\n')
+        print(cs.WELCOME_MESSAGE)
 
     def show_city_menu(self) -> str:
         """
@@ -34,13 +35,7 @@ class BikeshareView:
                 Enter Here: Chicago
                 Enter Here: washington
         """
-        city_list = [
-            'chicago', 
-            'new york city', 
-            'washington'
-        ]
-        question = "Which city you like to see the data for?"
-        selected = self.get_menu(question, city_list)
+        selected = self.get_menu(cs.WHICH_CITY_QUESTION, cs.CITY_LIST)
         return selected
 
     def show_period_menu(self) -> str:
@@ -50,7 +45,6 @@ class BikeshareView:
         Input:
             String: Provide a numerical or descriptive input based on 
             the information presented in the specified period list menu.
-
 
         Returns:
             String: Name of the period selected
@@ -66,16 +60,8 @@ class BikeshareView:
                 Enter Here: month
                 Enter Here: day
         """
-        period_list = [
-            'month', 
-            'day', 
-            'both',
-            'none'
-        ]
-        question = "How would you like to filter the data?"
-        selected = self.get_menu(question, period_list)
-
-        return "all" if selected == "none" else selected
+        selected = self.get_menu(cs.HOW_TO_FILTER_QUESTION, cs.PERIOD_LIST)
+        return cs.ALL if selected == cs.NONE else selected
 
     def show_month_menu(self) -> str:
         """
@@ -99,17 +85,33 @@ class BikeshareView:
                 Enter Here: month
                 Enter Here: day
         """
-        month_list = [
-            'january', 
-            'february', 
-            'march',
-            'april',
-            'may',
-            'june'
-        ]
-        question = "Which Month would you like to filter the data?"
-        selected_month = self.get_menu(question, month_list)
+        selected_month = self.get_menu(cs.WHICH_MONTH_QUESTION, cs.MONTH_LIST)
         return selected_month
+
+    def show_individual_trip_data_menu(self) -> str:
+        """
+        Display the menu of the individual trip for the user .
+
+        Input:
+            String: Provide a numerical or descriptive input based on 
+            the information presented in the specified individual trip list menu.
+
+        Returns:
+            String: Yes if the user want display individual trip, else no
+        
+        Raise:
+            Invalid Mesaage: If the input is invalid or not in the list provided
+        
+        Exmple:
+            Method 1 (Numeric value): 
+                Enter Here: 1
+                Enter Here: 2
+            Method 2 (Descriptive value): 
+                Enter Here: Yes
+                Enter Here: No
+        """
+        select = self.get_menu(cs.INDIVIDUAL_TRIP_DATA_QUESTION, cs.BOOLEAN_LIST)
+        return select
 
     def show_day_menu(self) -> str:
         """
@@ -133,17 +135,7 @@ class BikeshareView:
                 Enter Here: monday
                 Enter Here: thursday
         """
-        day_list = ['monday',
-                    'tuesday',
-                    'wednesday',
-                    'thursday',
-                    'friday',
-                    'saturday',
-                    'sunday'
-                    ]
-
-        question = "Which day of the week you like to filter the data?"
-        selected = self.get_menu(question, day_list)
+        selected = self.get_menu(cs.HOW_TO_FILTER_QUESTION, cs.DAY_LIST)
         return selected
 
     def show_reset_menu(self):
@@ -160,13 +152,7 @@ class BikeshareView:
         Raise:
             Invalid Mesaage: If the input is invalid or not in the list provided
         """
-        boolean_list = [
-            'yes',
-            'no' 
-        ]
-
-        question = 'Would you like to restart?'
-        selected = self.get_menu(question,boolean_list)
+        selected = self.get_menu(cs.RESTART_QUESTION,cs.BOOLEAN_LIST)
         return selected
 
 
@@ -184,7 +170,6 @@ class BikeshareView:
             Invalid Mesaage: If the input is invalid or not in the list provided
         """
         selected = str()
-        invalid_input_message = "Invalid, Please enter valid Input"
         print(question)
         menu_table = pd.Series(data=items, index=range(1, len(items)+1))
 
@@ -192,7 +177,7 @@ class BikeshareView:
             print(f'{index}. {value.title()}')
 
         while not selected:
-            user_input = input("Enter Here: ")
+            user_input = input(cs.INPUT_MESSAGE)
             try:
                 if (user_input.lower() in menu_table.values) or \
                     (int(user_input) in menu_table.index):
@@ -201,11 +186,11 @@ class BikeshareView:
                     else:
                         selected = user_input.lower()
                 else:
-                    print(invalid_input_message)
+                    print(cs.INVALID_INPUT_MESSAGE)
             except ValueError:
-                print(invalid_input_message)
+                print(cs.INVALID_INPUT_MESSAGE)
 
-        print("\n" + ("-"*40) + "\n")
+        print(cs.LINE_SPACE)
 
         return selected
 
@@ -213,13 +198,13 @@ class BikeshareView:
         """
         Thie fuction will print message 'No CSV file not found' 
         """
-        print("No csv file found\nThis app will be terminated\n")
+        print(cs.NO_CSV_FILE_MESSAGE)
 
     def display_time_travel_message(self):
         """
         This fuction will display message "Calculating The Most Frequent Times of Travel"
         """
-        print('\nCalculating The Most Frequent Times of Travel...\n')
+        print(cs.TIME_TRAVEL_MESSAGE)
 
     def display_time_travel_data(self, data:pd.DataFrame):
         """
@@ -229,13 +214,13 @@ class BikeshareView:
             data (pd.DataFrame): Table from previously used function time_stats
         """
         print(data)
-        print("\n" + '-'*40)
+        print(cs.LINE_SPACE)
 
     def display_station_message(self):
         """
         This fuction will display message "Calculating The Most Popular Stations and Trip"
         """
-        print('\nCalculating The Most Popular Stations and Trip...\n')
+        print(cs.POPULAR_STATIONS_MESSAGE)
 
     def display_station_data(self, data:pd.DataFrame):
         """
@@ -245,13 +230,13 @@ class BikeshareView:
             data (pd.DataFrame): Table from previously used function station_stats
         """
         print(data)
-        print("\n" + '-'*40)
+        print(cs.LINE_SPACE)
 
     def display_duration_message(self):
         """
         This fuction will display message "Calculating Trip Duration"
         """
-        print('\nCalculating Trip Duration...\n')
+        print(cs.DURATION_MESSAGE)
 
     def display_duration_data(self, data:pd.DataFrame):
         """
@@ -261,13 +246,13 @@ class BikeshareView:
             data (pd.DataFrame): Table from previously used function trip_duration_stats
         """
         print(data)
-        print("\n" + '-'*40)
+        print(cs.LINE_SPACE)
 
     def display_user_stats_message(self):
         """
         This fuction will display message "Calculating Trip Duration"
         """
-        print('\nCalculating User Stats...\n')
+        print(cs.USER_STATS_MESSAGE)
 
     def display_user_stats_data(self, data:pd.DataFrame):
         """
@@ -277,4 +262,15 @@ class BikeshareView:
             data (pd.DataFrame): Table from previously used function trip_duration_stats
         """
         print(data)
-        print("\n" + '-'*40)
+        print(cs.LINE_SPACE)
+
+    def display_individual_trip_data(self, data:pd.DataFrame):
+        """
+        This fuction will dsiplay the statstical of 5 individual \
+        trip_data each time user request for data
+
+        Args:
+            data (pd.DataFrame): for the csv file loaded
+        """
+        print(data)
+        print(cs.LINE_SPACE)
