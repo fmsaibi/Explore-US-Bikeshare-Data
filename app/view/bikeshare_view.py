@@ -67,7 +67,7 @@ class BikeshareView:
                 Enter Here: day
         """
         period_list = [period.value for period in Period]
-        return self.menu.get_menu(Question.HOW_TO_FILTER, period_list)
+        return self.menu.get_menu(Question.WHICH_DAY, period_list)
 
     def show_month_menu(self) -> str:
         """
