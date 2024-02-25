@@ -1,7 +1,7 @@
 # Importing the pandas library and aliasing it as 'pd' for convenient use
 
 import pandas as pd
-import app.constants as cs
+from app.constants import TableHeader, CommonConstants, Month
 
 class DataLoader:
     """
@@ -10,7 +10,7 @@ class DataLoader:
     def __init__(self):
         self.df = pd.DataFrame
 
-    def load_data(self, city:str, month:str, day:str) -> bool:
+    def load_data(self, city:str) -> bool:
         """
         This function opens a CSV file named after the provided city in the 'data' directory.
 
@@ -29,7 +29,6 @@ class DataLoader:
         path = f"data/{formate_city}.csv"
         try:
             self.df = pd.read_csv(path)
-            self.prepare_data(month, day)
             return True
         except FileNotFoundError:
             return False
@@ -43,27 +42,31 @@ class DataLoader:
             day (str): The day of the week for which data needs to filtred.
         """
         # convert the Start Time column to datetime
-        self.df[cs.START_TIME] = pd.to_datetime(self.df[cs.START_TIME])
+        self.df[TableHeader.START_TIME] = pd.to_datetime(self.df[TableHeader.START_TIME])
         # extract month from Start Time to create new columns
-        self.df[cs.MONTH] = pd.to_datetime(self.df[cs.START_TIME]).dt.month
+        self.df[TableHeader.MONTH] = pd.to_datetime(self.df[TableHeader.START_TIME]).dt.month
         # extract hour from Start Time to create new columns
-        self.df[cs.HOUR] = pd.to_datetime(self.df[cs.START_TIME]).dt.hour
+        self.df[TableHeader.HOUR] = pd.to_datetime(self.df[TableHeader.START_TIME]).dt.hour
         # extract day of week from Start Time to create new columns
-        self.df[cs.DAY_OF_WEEK] = pd.to_datetime(self.df[cs.START_TIME]).dt.day_name()
+        self.df[TableHeader.DAY_OF_WEEK] = pd.to_datetime(self.df[TableHeader.START_TIME]).\
+            dt.day_name()
         # Combining Start and End Station to create new columns
-        self.df[cs.COMBINE_STATION] = self.df[cs.START_STATION] + " to " + self.df[cs.END_STATION]
+        self.df[TableHeader.COMBINE_STATION] = self.df[TableHeader.START_STATION] + " to " + \
+            self.df[TableHeader.END_STATION]
 
         # filter by month if applicable
-        if month != cs.ALL:
+        if month != CommonConstants.ALL:
+            # Create month list
+            month_list = [month.value for month in Month]
             # use the index of the months list to get the corresponding int
-            month = cs.MONTH_LIST.index(month)+1
+            month = month_list.index(month)+1
             # filter by month to create the new dataframe
-            self.df = self.df[self.df[cs.MONTH] == month]
+            self.df = self.df[self.df[TableHeader.MONTH] == month]
 
         # filter by day of week if applicable
-        if day != cs.ALL:
+        if day != CommonConstants.ALL:
             # filter by day of week to create the new dataframe
-            self.df = self.df[self.df[cs.DAY_OF_WEEK] == day.title()]
+            self.df = self.df[self.df[TableHeader.DAY_OF_WEEK] == day.title()]
 
     def get_data(self):
         """
