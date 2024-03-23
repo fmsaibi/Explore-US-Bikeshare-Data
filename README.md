@@ -40,7 +40,7 @@ conda activate bikeshare
 
 In the virtual environment created in the previous step, type the following commands
 ```
-git clone https://gitlab.com/fmsaibi/explore-us-bikeshare-data.git
+git clone https://github.com/fmsaibi/Explore-US-Bikeshare-Data.git
 cd explore-us-bikeshare-data
 ```
 
